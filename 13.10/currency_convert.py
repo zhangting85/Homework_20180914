@@ -2,10 +2,17 @@ import argparse
 import sys
 import io
 
+'''
+Class CurrencyConvert with 4 attributes field, multiplier, i(input), o(output) and methods as required 
+'''
 class CurrencyConvert():
 
+    '''
+    Function: by using argparse to add 4 arguments field, multiplier, i, o to __init__ function
+    and to parse 4 arguments either from console or stdin/stdout.
+    '''
     def __init__(self):
-        #get arguments
+
         parser = argparse.ArgumentParser(prog="currency_convert",
                                          usage="%(prog)s <--field N> [--multiplier N] [-i input] [-o output]")
 
@@ -17,38 +24,55 @@ class CurrencyConvert():
         arguments = parser.parse_args()
 
         self.field = arguments.field
-        self.rate = arguments.multiplier
-        self.inputf = arguments.i
-        self.outputf = arguments.o
+        self.multiplier = arguments.multiplier
+        self.i = arguments.i
+        self.o = arguments.o
 
-    #get the usd amount
+    '''
+    One argument: the current line from the input file
+    Return: the element of the list amount regarding input value field
+    Function: get the USD amount text line, split line by comma, use the field number minus 1 to get the actual usd 
+    value element.
+    '''
     def get_the_usd_amount(self, line):
         amount = line.split(",")
         return amount[int(self.field) - 1]
 
-    #get the eur part
-    def get_the_eur_part(self, line):
-        part = line.split(",")
-        print(part[int(self.field) - 1] + "," + part[int(self.field)])
-        return part[int(self.field) - 1] + "," + part[int(self.field)]
-
-    #get the eur amount
+    '''
+    One argument: the current line from the input file
+    Return: combination of two elements of the list amount regarding input value field
+    Function: get the Euro amount text line, split line by comma, use the field number minus 1 and the field number 
+    combination to get the actual eur value element by deleting the euro symbol and replacing the comma with dot
+    '''
     def get_the_eur_amount(self, line):
         amount = line.split(",")
         print(amount[int(self.field) - 1].replace("€", "") + "." + amount[int(self.field)])
         return amount[int(self.field) - 1].replace("€", "") + "." + amount[int(self.field)]
 
-    #convert to eur
+    '''
+    One argument: amount, the usd amount from function get_the_usd_amount()
+    Return: the eur amount with an euro symbol, replace the dot with comma between digits
+    Function: get the usd amount times the multiplier with 2 decimal points
+    '''
     def convert_to_eur(self, amount):
-        euro = round(float(amount) * float(self.rate), 2)
+        euro = round(float(amount) * float(self.multiplier), 2)
         return "€" + str(euro).replace(".", ",")
 
-    #convert to usd
+    '''
+    One argument: amount, the eur amount from function get_the_eur_amount()
+    Return: the usd amount, replace the comma with dot between digits
+    Function: get the eur amount times the multiplier with 2 decimal points
+    '''
     def convert_to_usd(self, amount):
-        euro = round(float(amount) / float(self.rate), 2)
-        return str(euro)
+        usd = round(float(amount) / float(self.multiplier), 2)
+        return str(usd)
 
-    #read file into memory
+    '''
+    One argument: text_name
+    Return: new text that replaces the usd by the eur
+    Function: read line by line from the text and replace the usd by the euro, 
+    if there is no usd value, it just copies the line
+    '''
     def read_file(self, text_name):
         newline = ""
         for line in text_name:
@@ -59,45 +83,45 @@ class CurrencyConvert():
                 newline += line
         return newline
 
-    #eur file export
+    '''
+    Function: if the input/output is TTY, screen prints tips to let user enter the arguments
+    if the input/output is redirection, it reads from the console
+    if the input/output is with arguments, it reads from the arguments
+    From read_file gets the new text then export it
+    '''
     def usd_eur_file_export(self):
         new_text = ""
-        if isinstance(self.inputf, io.TextIOWrapper):
-            if self.inputf.isatty():
-                self.inputf = input("Please enter the input file name: ")
-                self.outputf = input("Please enter the output file name: ")
-                with open(self.inputf, "r") as text:
+        if isinstance(self.i, io.TextIOWrapper):
+            if self.i.isatty():
+                self.i = input("Please enter the input file name: ")
+                self.o = input("Please enter the output file name: ")
+                with open(self.i, "r", encoding="utf-8") as text:
                     new_text = self.read_file(text)
             else:
-                new_text = self.read_file(self.inputf)
-        elif isinstance(self.inputf, str):
-            with open(self.inputf, "r") as text:
+                new_text = self.read_file(self.i)
+
+        elif isinstance(self.i, str):
+            with open(self.i, "r", encoding="utf-8") as text:
                 new_text = self.read_file(text)
 
-        if isinstance(self.outputf, io.TextIOWrapper):
-            self.outputf.write(new_text)
+        if isinstance(self.o, io.TextIOWrapper):
+            self.o = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+            self.o.write(new_text)
         else:
-            with open(self.outputf, "w") as text2:
+            with open(self.o, "w", encoding="utf-8") as text2:
                 text2.write(new_text)
 
     #usd file export
     def eur_usd_file_export(self):
         pass
-
+'''
+Create a CurrencyConvert instance usdeur, 
+call the function usd_eur_file_export() to covert usd to eur
+'''
 if __name__ == '__main__':
 
     usdeur = CurrencyConvert()
     usdeur.usd_eur_file_export()
+
+    #similar function as usd to eur
     #usdeur.eur_usd_file_export()
-
-
-
-
-
-
-
-
-
-
-
-
