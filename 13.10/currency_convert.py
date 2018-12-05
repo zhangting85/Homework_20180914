@@ -3,7 +3,7 @@ import sys
 import io
 
 '''
-Class CurrencyConvert with 4 attributes field, multiplier, i(input), o(output) and methods as required 
+Class CurrencyConvert with 4 attributes field, multiplier, i(input), o(output) and methods as required.
 '''
 class CurrencyConvert():
 
