@@ -1,2 +1,5 @@
 本文件夹为大作业批改目录，以下是各人的作业文件名及对应的批改PullRequest，供后面同学参考
+重要：参考之前请先独立思考。
 currency_convert_yongyiwoo.py：https://github.com/zhangting85/Homework_20180914/pull/3
+currency_convert_qinfei.py：https://github.com/zhangting85/Homework_20180914/pull/4
+
