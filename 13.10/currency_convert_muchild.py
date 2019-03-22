@@ -25,7 +25,7 @@ letter = args.l
 
 def read_csv(input_data, type_name):
     text = []
-    if type_name != 'str':
+    if type_name != 'str' and input_data is not None:
         open_file = open(input_data, "r")
 
         info_open = open_file.readlines()
@@ -35,9 +35,15 @@ def read_csv(input_data, type_name):
 
         open_file.close()
         return text
-    else:
+    elif type_name == 'str' and input_data is not None:
         line = input_data.split(",")
         text.append(line)
+        return text
+    elif input_data is None:
+        lines = sys.stdin.readlines()
+        for each_line in lines:
+            line = each_line.split(",")
+            text.append(line)
         return text
 
 
@@ -63,9 +69,15 @@ def deal_data(data, field, multiplier, letter):
 
 
 def get_file():
+    text = []
     if isinstance(input_i, _io.TextIOWrapper):
         base_dir = os.getcwd()
-        file_path = os.path.join(base_dir, '', 'data.csv')
+        if str(input_i.name).endswith(".csv"):
+            file_path = os.path.join(base_dir, input_i.name)
+        elif str(input_i.name) == '<stdin>':
+            return read_csv(None,'')
+        else:
+            file_path = os.path.join(base_dir, '13.10', 'data.csv')
         return read_csv(file_path, '')
     elif str(input_i).endswith(".csv"):
         return read_csv(input_i, '')
