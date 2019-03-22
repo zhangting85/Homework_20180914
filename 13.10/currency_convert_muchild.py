@@ -68,7 +68,6 @@ def deal_data(data, field, multiplier, letter):
 
 
 def get_file():
-    text = []
     if isinstance(input_i, _io.TextIOWrapper):
         base_dir = os.getcwd()
         if str(input_i.name).endswith(".csv"):
