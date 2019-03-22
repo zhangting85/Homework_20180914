@@ -9,7 +9,7 @@ parser = argparse.ArgumentParser(description='currency_convert', prog="currency_
 
 parser.add_argument("--field", metavar="N", required=True, help="价格信息在CSV的第N行需要进行转换")
 parser.add_argument("--multiplier", metavar="N", help="转换方法为把当前的数值乘以N，这个N表示汇率")
-parser.add_argument("-i", nargs='?', type=argparse.FileType('r'), default=sys.stdin,
+parser.add_argument("-i", nargs='?', default=sys.stdin,
                     help="从input文件内读取CSV文件内容(或者从stdin读取)")
 parser.add_argument("-o", nargs='?', default=sys.stdout, help="输出到output文件中(或者输出到stdout)")
 parser.add_argument("-l", required=False, nargs='?', default=sys.stdin,
