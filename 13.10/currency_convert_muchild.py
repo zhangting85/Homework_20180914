@@ -25,25 +25,24 @@ letter = args.l
 
 def read_csv(input_data, type_name):
     text = []
-    if type_name != 'str' and input_data is not None:
-        open_file = open(input_data, "r")
+    if type_name != 'str':
+        open_file = None
 
-        info_open = open_file.readlines()
+        if input_data is not None:
+            open_file = open(input_data, "r")
+            info_open = open_file.readlines()
+        else:
+            info_open = sys.stdin.readlines()
         for each_line in info_open:
             line = each_line.split(",")
             text.append(line)
 
-        open_file.close()
+        if open_file is not None:
+            open_file.close()
         return text
     elif type_name == 'str' and input_data is not None:
         line = input_data.split(",")
         text.append(line)
-        return text
-    elif input_data is None:
-        lines = sys.stdin.readlines()
-        for each_line in lines:
-            line = each_line.split(",")
-            text.append(line)
         return text
 
 
