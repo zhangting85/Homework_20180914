@@ -63,3 +63,7 @@ def get_class_average(class_list):
     for i in class_list:
         results.append(get_average(i))
     average(results)
+    
+class_list=[80,40,94,82,83,91,0,75,78]
+get_class_average(class_list)   
+
